@@ -4,9 +4,9 @@
 #include <time.h>
 #include "../include/board.h"
 
-fieldPtr createField(fieldPtr list, int x, int y, int fieldValue)
+boardPtr createBoard(boardPtr list, int x, int y, int fieldValue)
 {
-    fieldPtr newField = (fieldPtr)malloc(sizeof(field));
+    boardPtr newField = (boardPtr)malloc(sizeof(board));
     if (newField == NULL)
     {
         exit(1);
@@ -20,34 +20,37 @@ fieldPtr createField(fieldPtr list, int x, int y, int fieldValue)
 
     return newField;
 }
-boardPtr createBoard(boardPtr list, int columns, int rows, int quantityOfBombs, field field)
+void sortListByCords(boardPtr *list)
 {
-    if (list == NULL)
+    if (*list == NULL || (*list)->next == NULL)
     {
-        boardPtr newBoard = (boardPtr)malloc(sizeof(board));
-        if (newBoard == NULL)
-        {
-            exit(1);
-        }
-        newBoard->columns = columns;
-        newBoard->rows = rows;
-        newBoard->quantityOfBombs = quantityOfBombs;
-        newBoard->field = (fieldPtr)malloc(sizeof(field));
-        if (newBoard->field == NULL)
-        {
-            exit(1);
-        }
-        *(newBoard->field) = field;
-        newBoard->next = NULL;
-        return newBoard;
+        return;
     }
-    else
+    boardPtr sorted = NULL;
+    while (*list != NULL)
     {
-        list = createBoard(list, columns, rows, quantityOfBombs, field);
-        return list;
+        boardPtr current = *list;
+        *list = (*list)->next;
+        if (sorted == NULL || current->y < sorted->y || (current->y == sorted->y && current->x < sorted->x))
+        {
+            current->next = sorted;
+            sorted = current;
+        }
+        else
+        {
+            boardPtr temp = sorted;
+            while (temp->next != NULL && (temp->next->y < current->y || (temp->next->y == current->y && temp->next->x < current->x)))
+            {
+                temp = temp->next;
+            }
+            current->next = temp->next;
+            temp->next = current;
+        }
     }
+    *list = sorted;
 }
-int checkIfFieldExist(fieldPtr list, int x, int y)
+
+int checkIfFieldExist(boardPtr list, int x, int y)
 {
     while (list != NULL)
     {
@@ -60,7 +63,7 @@ int checkIfFieldExist(fieldPtr list, int x, int y)
     return 1;
 }
 
-int isBombExist(fieldPtr list, int x, int y)
+int isBombExist(boardPtr list, int x, int y)
 {
     while (list != NULL)
     {
@@ -90,7 +93,7 @@ int isFieldExist(int x, int y, int columns, int rows)
     return 1;
 }
 
-int getValueOfField(fieldPtr list, int x, int y, int columns, int rows)
+int getValueOfField(boardPtr list, int x, int y, int columns, int rows)
 {
     int fieldValue = 0;
     for (int moveY = -1; moveY <= 1; moveY++)
@@ -106,36 +109,55 @@ int getValueOfField(fieldPtr list, int x, int y, int columns, int rows)
     return fieldValue;
 }
 
-void printFileds(fieldPtr list)
+void printFileds(boardPtr list)
 {
     while (list != NULL)
     {
-        printf("x: %d y: %d value: %d\n", list->x, list->y, list->fieldValue);
+        if (list->fieldValue == 9)
+        {
+            printf("* ");
+        }
+        else
+        {
+            printf("%d ", list->fieldValue);
+        }
+        if (list->next != NULL && list->x > list->next->x)
+        {
+            printf("\n");
+        }
         list = list->next;
     }
+    printf("\n");
 }
 
-void generateBoard(char *mode, boardPtr *boardList, fieldPtr *fieldList)
+void generateBoard(char *mode, boardPtr *boardList, int rows, int columns, int quatityOfMins)
 {
     srand(time(NULL));
     if (strcmp(mode, "-e") == 0)
     {
-        completeMins(fieldList, 9, 9, 10);
-        completeFileds(fieldList, 9, 9);
+        completeMins(boardList, 9, 9, 10);
+        completeFileds(boardList, 9, 9);
     }
     else if (strcmp(mode, "-m") == 0)
     {
-        completeMins(fieldList, 16, 16, 40);
-        completeFileds(fieldList, 16, 16);
+        completeMins(boardList, 16, 16, 40);
+        completeFileds(boardList, 16, 16);
     }
     else if (strcmp(mode, "-h") == 0)
     {
-        completeMins(fieldList, 16, 30, 99);
-        completeFileds(fieldList, 16, 30);
+        completeMins(boardList, 16, 30, 99);
+        completeFileds(boardList, 16, 30);
     }
+    else if (strcmp(mode, "-p") == 0)
+    {
+        completeMins(boardList, rows, columns, quatityOfMins);
+        completeFileds(boardList, rows, columns);
+    }
+
+    sortListByCords(boardList);
 }
 
-void completeMins(fieldPtr *fieldList, int columns, int rows, int quantityOfMins)
+void completeMins(boardPtr *boardList, int columns, int rows, int quantityOfMins)
 {
     int x, y, arleadyExist;
     for (int i = 0; i < quantityOfMins; i++)
@@ -144,22 +166,22 @@ void completeMins(fieldPtr *fieldList, int columns, int rows, int quantityOfMins
         {
             x = 1 + rand() % columns;
             y = 1 + rand() % rows;
-            arleadyExist = checkIfFieldExist(*fieldList, x, y);
+            arleadyExist = checkIfFieldExist(*boardList, x, y);
         } while (arleadyExist == 0);
-        *fieldList = createField(*fieldList, x, y, 9);
+        *boardList = createBoard(*boardList, x, y, 9);
     }
 }
 
-void completeFileds(fieldPtr *fieldList, int columns, int rows)
+void completeFileds(boardPtr *boardList, int columns, int rows)
 {
     for (int y = 1; y < rows + 1; y++)
     {
         for (int x = 1; x < columns + 1; x++)
         {
-            if (isBombExist(*fieldList, x, y) == 0)
+            if (isBombExist(*boardList, x, y) == 0)
             {
-                int fieldValue = getValueOfField(*fieldList, x, y, columns, rows);
-                *fieldList = createField(*fieldList, x, y, fieldValue);
+                int fieldValue = getValueOfField(*boardList, x, y, columns, rows);
+                *boardList = createBoard(*boardList, x, y, fieldValue);
             }
         }
     }
