@@ -22,9 +22,9 @@ int getValueOfField(boardPtr list, int x, int y, int columns, int rows);
 
 void printFileds(boardPtr list);
 
-void generateBoard(char *mode, boardPtr *boardList, int rows, int columns, int quatityOfMins);
+void generateBoard(char *mode, boardPtr *boardList, int rows, int columns, int quatityOfMins, int x, int y);
 
-void completeMins(boardPtr *boardList, int columns, int rows, int quantityOfMins);
+void completeMins(boardPtr *boardList, int columns, int rows, int quantityOfMins, int firstX, int firstY);
 
 void completeFileds(boardPtr *boardList, int columns, int rows);
 

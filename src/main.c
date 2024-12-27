@@ -19,9 +19,10 @@ int main(int argc, char **argv)
     int rows = argc > 2 ? atoi(argv[2]) : 0;
     int columns = argc > 3 ? atoi(argv[3]) : 0;
     int quatityOfMins = argc > 4 ? atoi(argv[4]) : 0;
-    generateBoard(mode, &boardList, rows, columns, quatityOfMins);
 
     int x, y;
+    int isFirstMove = 1;
+
     do
     {
         printFileds(boardList);
@@ -32,6 +33,11 @@ int main(int argc, char **argv)
             while (getchar() != '\n')
                 ;
             continue;
+        }
+        if (isFirstMove == 1)
+        {
+            generateBoard(mode, &boardList, rows, columns, quatityOfMins, x, y);
+            isFirstMove = 0;
         }
 
     } while (isContinue(&boardList, x, y) == 1);

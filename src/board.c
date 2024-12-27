@@ -142,34 +142,34 @@ void printFileds(boardPtr list)
     printf("\n");
 }
 
-void generateBoard(char *mode, boardPtr *boardList, int rows, int columns, int quatityOfMins)
+void generateBoard(char *mode, boardPtr *boardList, int rows, int columns, int quatityOfMins, int x, int y)
 {
     srand(time(NULL));
     if (strcmp(mode, "-e") == 0)
     {
-        completeMins(boardList, 9, 9, 10);
+        completeMins(boardList, 9, 9, 10, x, y);
         completeFileds(boardList, 9, 9);
     }
     else if (strcmp(mode, "-m") == 0)
     {
-        completeMins(boardList, 16, 16, 40);
+        completeMins(boardList, 16, 16, 40, x, y);
         completeFileds(boardList, 16, 16);
     }
     else if (strcmp(mode, "-h") == 0)
     {
-        completeMins(boardList, 16, 30, 99);
+        completeMins(boardList, 16, 30, 99, x, y);
         completeFileds(boardList, 16, 30);
     }
     else if (strcmp(mode, "-p") == 0)
     {
-        completeMins(boardList, rows, columns, quatityOfMins);
+        completeMins(boardList, rows, columns, quatityOfMins, x, y);
         completeFileds(boardList, rows, columns);
     }
 
     sortListByCords(boardList);
 }
 
-void completeMins(boardPtr *boardList, int columns, int rows, int quantityOfMins)
+void completeMins(boardPtr *boardList, int columns, int rows, int quantityOfMins, int firstX, int firstY)
 {
     int x, y, arleadyExist;
     for (int i = 0; i < quantityOfMins; i++)
@@ -179,6 +179,10 @@ void completeMins(boardPtr *boardList, int columns, int rows, int quantityOfMins
             x = 1 + rand() % columns;
             y = 1 + rand() % rows;
             arleadyExist = checkIfFieldExist(*boardList, x, y);
+            if (firstX == x && firstY == y)
+            {
+                arleadyExist = 1;
+            }
         } while (arleadyExist == 0);
         *boardList = createBoard(*boardList, x, y, 9);
     }
