@@ -15,6 +15,7 @@ boardPtr createBoard(boardPtr list, int x, int y, int fieldValue)
     newField->x = x;
     newField->y = y;
     newField->fieldValue = fieldValue;
+    newField->isVisable = 0;
 
     newField->next = list;
 
@@ -113,13 +114,24 @@ void printFileds(boardPtr list)
 {
     while (list != NULL)
     {
-        if (list->fieldValue == 9)
+        if (list->isVisable == 1)
         {
-            printf("* ");
+            if (list->fieldValue == 9)
+            {
+                printf("* ");
+            }
+            else if (list->fieldValue == 0)
+            {
+                printf("  ");
+            }
+            else
+            {
+                printf("%d ", list->fieldValue);
+            }
         }
-        else
+        else if (list->isVisable == 0)
         {
-            printf("%d ", list->fieldValue);
+            printf("X ");
         }
         if (list->next != NULL && list->x > list->next->x)
         {
