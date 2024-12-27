@@ -20,6 +20,10 @@ int isFieldExist(int x, int y, int columns, int rows);
 
 int getValueOfField(boardPtr list, int x, int y, int columns, int rows);
 
+int getColumns(boardPtr list);
+
+int getRows(boardPtr list);
+
 void printFileds(boardPtr list);
 
 void generateBoard(char *mode, boardPtr *boardList, int rows, int columns, int quatityOfMins, int x, int y);

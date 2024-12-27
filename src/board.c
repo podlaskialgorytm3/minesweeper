@@ -110,6 +110,30 @@ int getValueOfField(boardPtr list, int x, int y, int columns, int rows)
     return fieldValue;
 }
 
+int getColumns(boardPtr list)
+{
+    int quatityOfColumns = 1;
+    while (list->next->x > list->x)
+    {
+        quatityOfColumns++;
+        list = list->next;
+    }
+    return quatityOfColumns;
+}
+int getRows(boardPtr list)
+{
+    int maxRow = 0;
+    while (list != NULL)
+    {
+        if (list->y > maxRow)
+        {
+            maxRow = list->y;
+        }
+        list = list->next;
+    }
+    return maxRow;
+}
+
 void printFileds(boardPtr list)
 {
     while (list != NULL)
@@ -181,7 +205,7 @@ void completeMins(boardPtr *boardList, int columns, int rows, int quantityOfMins
             arleadyExist = checkIfFieldExist(*boardList, x, y);
             if (firstX == x && firstY == y)
             {
-                arleadyExist = 1;
+                arleadyExist = 0;
             }
         } while (arleadyExist == 0);
         *boardList = createBoard(*boardList, x, y, 9);

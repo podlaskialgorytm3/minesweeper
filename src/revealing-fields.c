@@ -6,6 +6,13 @@
 int isContinue(boardPtr *list, int x, int y)
 {
     boardPtr current = *list;
+    int rows = getRows(current);
+    int columns = getColumns(current);
+    if (isFieldExist(x, y, columns, rows) == 0)
+    {
+        printf("Podano nie istniejace wsporzledne!\n");
+        return 1;
+    }
     int fieldValue = getValueByCords(current, x, y);
 
     if (fieldValue == 9)

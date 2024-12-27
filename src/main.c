@@ -34,6 +34,7 @@ int main(int argc, char **argv)
                 ;
             continue;
         }
+
         if (isFirstMove == 1)
         {
             generateBoard(mode, &boardList, rows, columns, quatityOfMins, x, y);
