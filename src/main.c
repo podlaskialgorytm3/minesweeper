@@ -26,8 +26,7 @@ int main(int argc, char **argv)
     if(rows>0) x_r = rows;
     int x, y;
     int isFirstMove = 1;
-    printf("%d\n", x_r);
-    //generateBoard(mode, &boardList, rows, columns, quatityOfMins, 1, 1);
+
     do
     {
         printFileds(boardList, x_r);

@@ -140,13 +140,13 @@ void printFileds(boardPtr list, int x)
     if(x>9) space = " ";
     int y = 1;
     if(list!=NULL){
-        printf("  %s", space);
+        printf("%s  %s", space, space);
         for(int i=1;i<=x;i++){
-            if(i<10)
+            if(i<9)
                 printf("%d %s", i, space);
             else printf("%d ", i);
         }
-        printf("\n%s%d ", space, y);
+        printf("\n%s%d %s", space, y, space);
     }
     while (list != NULL)
     {
@@ -173,8 +173,8 @@ void printFileds(boardPtr list, int x)
         {
             y+=1;
             if(y<10)
-                printf("\n%s%d ", space, y);
-            else printf("\n%d ", y);
+                printf("\n%s%d %s", space, y, space);
+            else printf("\n%d %s", y, space);
         }
         list = list->next;
     }
