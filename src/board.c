@@ -134,32 +134,47 @@ int getRows(boardPtr list)
     return maxRow;
 }
 
-void printFileds(boardPtr list)
+void printFileds(boardPtr list, int x)
 {
+    char *space = "";
+    if(x>9) space = " ";
+    int y = 1;
+    if(list!=NULL){
+        printf("  %s", space);
+        for(int i=1;i<=x;i++){
+            if(i<10)
+                printf("%d %s", i, space);
+            else printf("%d ", i);
+        }
+        printf("\n%s%d ", space, y);
+    }
     while (list != NULL)
     {
         if (list->isVisable == 1)
         {
             if (list->fieldValue == 9)
             {
-                printf("* ");
+                printf("* %s", space);
             }
             else if (list->fieldValue == 0)
             {
-                printf("  ");
+                printf("  %s", space);
             }
             else
             {
-                printf("%d ", list->fieldValue);
+                printf("%d %s", list->fieldValue, space);
             }
         }
         else if (list->isVisable == 0)
         {
-            printf("X ");
+            printf("X %s", space);
         }
         if (list->next != NULL && list->x > list->next->x)
         {
-            printf("\n");
+            y+=1;
+            if(y<10)
+                printf("\n%s%d ", space, y);
+            else printf("\n%d ", y);
         }
         list = list->next;
     }

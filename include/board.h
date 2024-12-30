@@ -24,7 +24,7 @@ int getColumns(boardPtr list);
 
 int getRows(boardPtr list);
 
-void printFileds(boardPtr list);
+void printFileds(boardPtr list, int x);
 
 void generateBoard(char *mode, boardPtr *boardList, int rows, int columns, int quatityOfMins, int x, int y);
 
