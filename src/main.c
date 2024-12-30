@@ -12,7 +12,8 @@ int main(int argc, char **argv)
     if (argc > 1)
     {
         strcpy(mode, argv[1]);
-        x_r = 16;
+        if(strcmp(argv[1], "-e")!=0)
+            x_r = 16;
     }
     else
     {
@@ -25,6 +26,7 @@ int main(int argc, char **argv)
     if(rows>0) x_r = rows;
     int x, y;
     int isFirstMove = 1;
+    printf("%d\n", x_r);
     //generateBoard(mode, &boardList, rows, columns, quatityOfMins, 1, 1);
     do
     {
