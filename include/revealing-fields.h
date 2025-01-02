@@ -19,6 +19,8 @@ void removeFlag(boardPtr list, int x, int y);
 
 int is_flag(boardPtr list, int x, int y);
 
+int checkifwin(boardPtr list);
+
 checkFieldPtr insertCheckedFields(checkFieldPtr list, int x, int y, int isChecked);
 
 checkFieldPtr getFirstNotChecked(checkFieldPtr list);

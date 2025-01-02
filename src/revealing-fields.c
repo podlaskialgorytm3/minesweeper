@@ -4,8 +4,26 @@
 #include "../include/board.h"
 #include "../include/revealing-fields.h"
 
+int checkifwin(boardPtr list){
+    int cell_size = 0;
+    int revealed = 0;
+    int mines = 0;
+    int flags_ok = 0;
+    while(list!=NULL){
+        cell_size+=1;
+        if(list->isVisable==1) revealed+=1;
+        if(list->isFlag==1 && list->fieldValue==9) flags_ok+=1;
+        if(list->fieldValue==9) mines+=1;
+        list = list->next;
+    }
+    //printf("%d %d %d\n", flags_ok, revealed, cell_size);
+    if(flags_ok+revealed==cell_size) return 1;
+    return 0;
+}
+
 int isContinue(boardPtr *list, int x, int y, char *user_choice)
 {
+    
     boardPtr current = *list;
     int rows = getRows(current);
     int columns = getColumns(current);
@@ -52,7 +70,6 @@ int isContinue(boardPtr *list, int x, int y, char *user_choice)
         else removeFlag(current, x, y);
         return 1;
     }
-
 }
 
 void revealingField(boardPtr list, int x, int y)

@@ -138,7 +138,7 @@ int score(boardPtr list, char *mode){
     int sum = 0;
     while (list != NULL)
     {
-        if(list->isVisable==1){
+        if(list->isVisable==1 && list->isVisable!=9){
             sum+=1;
         }
         list = list->next;
