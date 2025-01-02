@@ -15,6 +15,8 @@ boardPtr createBoard(boardPtr list, int x, int y, int fieldValue);
 
 void sortListByCords(boardPtr *list);
 
+int score(boardPtr list, char *mode);
+
 int checkIfFieldExist(boardPtr list, int x, int y);
 
 int isFieldExist(int x, int y, int columns, int rows);

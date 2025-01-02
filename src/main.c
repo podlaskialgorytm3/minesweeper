@@ -27,10 +27,12 @@ int main(int argc, char **argv)
     int x, y;
     int isFirstMove = 1;
     char *user_choice = malloc(5);
+    printf("%s\n", mode);
     do
     {
         // -r x y odkrywa
         // -f x y dodaje flage
+        printf("Aktualny wynik: %d\n", score(boardList, mode));
         printFileds(boardList, x_r);
         printf("Wpisz wybor i wspolrzedne (x y): ");
         if (scanf("%s %d %d",user_choice, &x, &y) != 3)

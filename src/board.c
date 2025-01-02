@@ -134,6 +134,21 @@ int getRows(boardPtr list)
     return maxRow;
 }
 
+int score(boardPtr list, char *mode){
+    int sum = 0;
+    while (list != NULL)
+    {
+        if(list->isVisable==1){
+            sum+=1;
+        }
+        list = list->next;
+    }
+    if(strcmp(mode, "-e")==0) return sum;
+    if(strcmp(mode, "-m")==0) return sum*2;
+    if(strcmp(mode, "-h")==0) return sum*3;
+    else return sum;
+}
+
 void printFileds(boardPtr list, int x)
 {
     char *space = "";

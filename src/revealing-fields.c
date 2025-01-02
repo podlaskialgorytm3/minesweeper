@@ -21,14 +21,11 @@ int isContinue(boardPtr *list, int x, int y, char *user_choice)
         revealingField(current, x, y);
         return 0;
     }
-    else if(fieldValue == 9 && is_flag(current, x, y)==0 && strcmp(user_choice, "-f")==0)
+    else if(fieldValue == 9 && strcmp(user_choice, "-f")==0)
     {
-        addFlag(current, x, y);
-        return 1;
-    }
-    else if(fieldValue == 9 && is_flag(current, x, y)==1 && strcmp(user_choice, "-d")==0)
-    {
-        removeFlag(current, x, y);
+        if(is_flag(current, x, y)==0)
+            addFlag(current, x, y);
+        else removeFlag(current, x, y);
         return 1;
     }
     else if (fieldValue > 0 && fieldValue < 9 && strcmp(user_choice, "-r")==0)
@@ -36,14 +33,11 @@ int isContinue(boardPtr *list, int x, int y, char *user_choice)
         revealingField(current, x, y);
         return 1;
     }
-    else if (fieldValue > 0 && fieldValue < 9 && strcmp(user_choice, "-d")==0 && is_flag(current, x, y))
-    {
-        removeFlag(current, x, y);
-        return 1;
-    }
     else if (fieldValue > 0 && fieldValue < 9 && strcmp(user_choice, "-f")==0)
     {
-        addFlag(current, x, y);
+        if(is_flag(current, x, y)==0)
+            addFlag(current, x, y);
+        else removeFlag(current, x, y);
         return 1;
     }
     else if (fieldValue == 0 && strcmp(user_choice, "-r")==0)
@@ -53,14 +47,12 @@ int isContinue(boardPtr *list, int x, int y, char *user_choice)
     }
     else if (fieldValue == 0 && strcmp(user_choice, "-f")==0)
     {
-        addFlag(current, x, y);
+        if(is_flag(current, x, y)==0)
+            addFlag(current, x, y);
+        else removeFlag(current, x, y);
         return 1;
     }
-    else if (fieldValue == 0 && strcmp(user_choice, "-d")==0 && is_flag(current, x, y))
-    {
-        addFlag(current, x, y);
-        return 1;
-    }
+
 }
 
 void revealingField(boardPtr list, int x, int y)
