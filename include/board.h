@@ -7,6 +7,7 @@ typedef struct board
     int y;
     int fieldValue; // [0] - Neutral , [1-8] - Inforamtion, [9] Is bomb.
     int isVisable;  // 0 - not visable, 1 - visable
+    int isFlag;
     struct board *next;
 } board, *boardPtr;
 

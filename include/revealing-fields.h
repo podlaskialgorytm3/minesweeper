@@ -9,9 +9,15 @@ typedef struct checkField
     struct checkField *next;
 } checkField, *checkFieldPtr;
 
-int isContinue(boardPtr *list, int x, int y);
+int isContinue(boardPtr *list, int x, int y, char *user_choice);
 
 void revealingField(boardPtr list, int x, int y);
+
+void addFlag(boardPtr list, int x, int y);
+
+void removeFlag(boardPtr list, int x, int y);
+
+int is_flag(boardPtr list, int x, int y);
 
 checkFieldPtr insertCheckedFields(checkFieldPtr list, int x, int y, int isChecked);
 

@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "../include/board.h"
 #include "../include/revealing-fields.h"
 
-int isContinue(boardPtr *list, int x, int y)
+int isContinue(boardPtr *list, int x, int y, char *user_choice)
 {
     boardPtr current = *list;
     int rows = getRows(current);
@@ -15,19 +16,49 @@ int isContinue(boardPtr *list, int x, int y)
     }
     int fieldValue = getValueByCords(current, x, y);
 
-    if (fieldValue == 9)
+    if (fieldValue == 9 && is_flag(current, x, y)==0 && strcmp(user_choice, "-r")==0)
     {
         revealingField(current, x, y);
         return 0;
     }
-    else if (fieldValue > 0 && fieldValue < 9)
+    else if(fieldValue == 9 && is_flag(current, x, y)==0 && strcmp(user_choice, "-f")==0)
+    {
+        addFlag(current, x, y);
+        return 1;
+    }
+    else if(fieldValue == 9 && is_flag(current, x, y)==1 && strcmp(user_choice, "-d")==0)
+    {
+        removeFlag(current, x, y);
+        return 1;
+    }
+    else if (fieldValue > 0 && fieldValue < 9 && strcmp(user_choice, "-r")==0)
     {
         revealingField(current, x, y);
         return 1;
     }
-    else if (fieldValue == 0)
+    else if (fieldValue > 0 && fieldValue < 9 && strcmp(user_choice, "-d")==0 && is_flag(current, x, y))
+    {
+        removeFlag(current, x, y);
+        return 1;
+    }
+    else if (fieldValue > 0 && fieldValue < 9 && strcmp(user_choice, "-f")==0)
+    {
+        addFlag(current, x, y);
+        return 1;
+    }
+    else if (fieldValue == 0 && strcmp(user_choice, "-r")==0)
     {
         revealingFreeFields(&current, x, y);
+        return 1;
+    }
+    else if (fieldValue == 0 && strcmp(user_choice, "-f")==0)
+    {
+        addFlag(current, x, y);
+        return 1;
+    }
+    else if (fieldValue == 0 && strcmp(user_choice, "-d")==0 && is_flag(current, x, y))
+    {
+        addFlag(current, x, y);
         return 1;
     }
 }
@@ -42,6 +73,52 @@ void revealingField(boardPtr list, int x, int y)
         }
         list = list->next;
     }
+}
+
+void addFlag(boardPtr list, int x, int y)
+{
+    while (list != NULL)
+    {
+        if (list->x == x && list->y == y)
+        {
+            if(list->isVisable==1){
+                printf("Nie dodajemy flag do odkrytych pol!!!\n");
+            }
+            else{
+                list->isFlag = 1;
+            }
+        }
+        list = list->next;
+    }
+}
+
+void removeFlag(boardPtr list, int x, int y)
+{
+    while (list != NULL)
+    {
+        if (list->x == x && list->y == y)
+        {
+            if(list->isVisable==1){
+                printf("Blad!!!\n");
+            }
+            else{
+                list->isFlag = 0;
+            }
+        }
+        list = list->next;
+    }
+}
+
+int is_flag(boardPtr list, int x, int y){
+    while (list != NULL)
+    {
+        if (list->x == x && list->y == y)
+        {
+            if(list->isFlag==1) return 1;
+        }
+        list = list->next;
+    }
+    return 0;
 }
 
 checkFieldPtr insertCheckedFields(checkFieldPtr list, int x, int y, int isChecked)

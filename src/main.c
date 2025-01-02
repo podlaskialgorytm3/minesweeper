@@ -26,12 +26,14 @@ int main(int argc, char **argv)
     if(rows>0) x_r = rows;
     int x, y;
     int isFirstMove = 1;
-
+    char *user_choice = malloc(5);
     do
     {
+        // -r x y odkrywa
+        // -f x y dodaje flage
         printFileds(boardList, x_r);
-        printf("Podaj wspolrzedne (x y): ");
-        if (scanf("%d %d", &x, &y) != 2)
+        printf("Wpisz wybor i wspolrzedne (x y): ");
+        if (scanf("%s %d %d",user_choice, &x, &y) != 3)
         {
             printf("Niepoprawny format danych. Sprobuj ponownie.\n");
             while (getchar() != '\n')
@@ -44,8 +46,14 @@ int main(int argc, char **argv)
             generateBoard(mode, &boardList, rows, columns, quatityOfMins, x, y);
             isFirstMove = 0;
         }
+        // if(strcmp(user_choice, "-r")==0 && isFirstMove==0){
+        //     revealingField(boardList, x, y);
+        // }
+        // if(strcmp(user_choice, "-f")==0 && isFirstMove==0){
+        //     addFlag(boardList, x, y);
+        // }
 
-    } while (isContinue(&boardList, x, y) == 1);
+    } while (isContinue(&boardList, x, y, user_choice) == 1);
 
     printFileds(boardList, x_r);
 

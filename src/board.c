@@ -167,7 +167,10 @@ void printFileds(boardPtr list, int x)
         }
         else if (list->isVisable == 0)
         {
-            printf("X %s", space);
+            if(list->isFlag==1){
+                printf("F %s", space);
+            }
+            else printf("X %s", space);
         }
         if (list->next != NULL && list->x > list->next->x)
         {
