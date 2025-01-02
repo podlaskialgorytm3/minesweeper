@@ -21,6 +21,7 @@ int main(int argc, char **argv)
     int opt;
     strcpy(mode, "-e");
     while ((opt = getopt(argc, argv, "emhpl:")) != -1) {
+        //printf("Prosze podac tryb\n");
         switch (opt) {
             case 'e':
                 strcpy(mode, "-e");
@@ -93,7 +94,7 @@ int main(int argc, char **argv)
         }
 
 
-    } while (isContinue(&boardList, x, y, user_choice) == 1);
+    } while (isContinue(&boardList, x, y, user_choice, mode) == 1);
 
     printf("Podaj swoj nick: ");
     scanf("%s", nickname);

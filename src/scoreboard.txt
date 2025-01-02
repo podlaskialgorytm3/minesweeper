@@ -1,5 +1,3 @@
-Bombel 143
-Maly 77
-siurek 63
-kotek 63
-siurek 49
+Lolek 63
+Multi 48
+lolek 45

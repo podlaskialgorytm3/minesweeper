@@ -9,7 +9,7 @@ typedef struct checkField
     struct checkField *next;
 } checkField, *checkFieldPtr;
 
-int isContinue(boardPtr *list, int x, int y, char *user_choice);
+int isContinue(boardPtr *list, int x, int y, char *user_choice, char *mode);
 
 void revealingField(boardPtr list, int x, int y);
 

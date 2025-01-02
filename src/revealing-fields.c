@@ -21,7 +21,7 @@ int checkifwin(boardPtr list){
     return 0;
 }
 
-int isContinue(boardPtr *list, int x, int y, char *user_choice)
+int isContinue(boardPtr *list, int x, int y, char *user_choice, char *mode)
 {
     
     boardPtr current = *list;
@@ -37,6 +37,8 @@ int isContinue(boardPtr *list, int x, int y, char *user_choice)
     if (fieldValue == 9 && is_flag(current, x, y)==0 && strcmp(user_choice, "-r")==0)
     {
         revealingField(current, x, y);
+        printf("Niestety tym razem sie nie udalo :(, twoj wynik: %d\n", score(current, mode));
+        printFileds(current, rows);
         return 0;
     }
     else if(fieldValue == 9 && strcmp(user_choice, "-f")==0)
