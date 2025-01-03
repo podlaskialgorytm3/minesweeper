@@ -61,11 +61,27 @@ int main(int argc, char **argv)
             if (optind < argc)
             {
                 loadFile(argv[optind++], &boardList, &moves);
+                rows = getRows(boardList);
+                mode = getMode(boardList);
+
+                int isWin = checkifwin(boardList);
+                int points = score(boardList, mode);
+
                 printf("Ruchy:\n");
                 printMoves(moves);
-                rows = getRows(boardList);
                 printf("Plansza na zakonczenie gry:\n");
                 printFileds(boardList, rows);
+                printf("Poprawne kroki: %d\n", getCorrectSteps(moves, isWin));
+                printf("Liczba otrzymanych punktow: %d\n", points);
+
+                if (isWin)
+                {
+                    printf("Wygrana gra: 1\n");
+                }
+                else
+                {
+                    printf("Przegrana gra: 0\n");
+                }
             }
             else
             {

@@ -274,7 +274,7 @@ void completeFileds(boardPtr *boardList, int columns, int rows)
     }
 }
 
-const char *getMode(boardPtr list)
+char *getMode(boardPtr list)
 {
     int columns = getColumns(list);
     int rows = getRows(list);
