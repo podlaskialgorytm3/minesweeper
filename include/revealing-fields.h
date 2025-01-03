@@ -11,7 +11,7 @@ typedef struct checkField
     struct checkField *next;
 } checkField, *checkFieldPtr;
 
-int isContinue(boardPtr *list, int x, int y, char *user_choice, char *mode, loadedBoardPointer *moves);
+int isContinue(boardPtr *list, int x, int y, char *user_choice, char *mode, movementsPtr *moves);
 
 void revealingField(boardPtr list, int x, int y);
 

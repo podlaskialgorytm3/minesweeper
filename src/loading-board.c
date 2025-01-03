@@ -53,7 +53,10 @@ void printBoard(boardPtr boardList)
 
 void saveFile(char *fileName, boardPtr boradList, movementsPtr moves)
 {
-    FILE *file = fopen(fileName, "w");
+
+    char filePath[256];
+    snprintf(filePath, sizeof(filePath), "./data/%s", fileName);
+    FILE *file = fopen(filePath, "w");
     if (file == NULL)
     {
         fprintf(stderr, "Could not open file for writing\n");
@@ -78,7 +81,9 @@ void saveFile(char *fileName, boardPtr boradList, movementsPtr moves)
 }
 void loadFile(char *fileName, boardPtr *boardList, movementsPtr *moves)
 {
-    FILE *file = fopen(fileName, "r");
+    char filePath[256];
+    snprintf(filePath, sizeof(filePath), "./data/%s", fileName);
+    FILE *file = fopen(filePath, "r");
     if (file == NULL)
     {
         fprintf(stderr, "Could not open file for reading\n");
@@ -130,5 +135,6 @@ void loadFile(char *fileName, boardPtr *boardList, movementsPtr *moves)
         }
     }
 
+    sortListByCords(boardList);
     fclose(file);
 }
