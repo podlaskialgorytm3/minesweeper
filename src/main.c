@@ -3,7 +3,7 @@
 #include <string.h>
 #include "../include/board.h"
 #include "../include/revealing-fields.h"
-#include "../include/file_reader.h"
+#include "../include/handling-score.h"
 #include <unistd.h>
 
 #define MAX_PLAYERS 5

@@ -1,5 +1,5 @@
-#ifndef FILE_READER_
-#define FILE_READER_
+#ifndef HANDLING_SCORE_
+#define HANDLING_SCORE_
 
 typedef struct {
     char nickname[50];
