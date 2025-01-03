@@ -272,3 +272,26 @@ void completeFileds(boardPtr *boardList, int columns, int rows)
         }
     }
 }
+
+const char *getMode(boardPtr list)
+{
+    int columns = getColumns(list);
+    int rows = getRows(list);
+
+    if (columns == 9 && rows == 9)
+    {
+        return "-e";
+    }
+    else if (columns == 16 && rows == 16)
+    {
+        return "-m";
+    }
+    else if (columns == 16 && rows == 30)
+    {
+        return "-h";
+    }
+    else
+    {
+        return "-p";
+    }
+}
