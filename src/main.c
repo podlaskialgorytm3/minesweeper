@@ -95,10 +95,7 @@ int main(int argc, char **argv)
         mines = 40;
     }
 
-    gameSettingsPointer settings = NULL;
-    loadedBoardPointer moves = NULL;
-
-    settings = createGameSettings(settings, columns, rows, mines);
+    movementsPtr moves = NULL;
 
     do
     {
