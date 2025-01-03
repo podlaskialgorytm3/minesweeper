@@ -45,7 +45,7 @@ int isContinue(boardPtr *list, int x, int y, char *user_choice, char *mode, move
         revealingField(current, x, y);
         *moves = createMove(*moves, x, y, "-r");
         printf("Niestety tym razem sie nie udalo :(, twoj wynik: %d\n", score(current, mode));
-        printFileds(current, rows);
+        printFileds(current, columns);
         return 0;
     }
     else if (fieldValue == 9 && strcmp(user_choice, "-f") == 0)
