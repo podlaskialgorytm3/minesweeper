@@ -1,6 +1,8 @@
 #ifndef REVEALING_FIELDS_
 #define REVEALING_FIELDS_
 
+#include "loading-borad.h"
+
 typedef struct checkField
 {
     int x;
@@ -9,9 +11,17 @@ typedef struct checkField
     struct checkField *next;
 } checkField, *checkFieldPtr;
 
-int isContinue(boardPtr *list, int x, int y);
+int isContinue(boardPtr *list, int x, int y, char *user_choice, char *mode, movementsPtr *moves);
 
 void revealingField(boardPtr list, int x, int y);
+
+void addFlag(boardPtr list, int x, int y);
+
+void removeFlag(boardPtr list, int x, int y);
+
+int is_flag(boardPtr list, int x, int y);
+
+int checkifwin(boardPtr list);
 
 checkFieldPtr insertCheckedFields(checkFieldPtr list, int x, int y, int isChecked);
 
