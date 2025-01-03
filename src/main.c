@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+
 #include "../include/board.h"
 #include "../include/revealing-fields.h"
 #include "../include/handling-score.h"
-#include <unistd.h>
+#include "../include/loading-borad.h"
 
 #define MAX_PLAYERS 5
 #define FILENAME "scoreboard.txt"
@@ -74,6 +76,30 @@ int main(int argc, char **argv)
     Player players[MAX_PLAYERS];
     int count = load_scores(players, FILENAME);
 
+    if (strcmp(mode, "-e") == 0)
+    {
+        columns = 9;
+        rows = 9;
+        mines = 10;
+    }
+    else if (strcmp(mode, "-m") == 0)
+    {
+        columns = 16;
+        rows = 16;
+        mines = 40;
+    }
+    else if (strcmp(mode, "-h") == 0)
+    {
+        columns = 16;
+        rows = 30;
+        mines = 40;
+    }
+
+    gameSettingsPointer settings = NULL;
+    loadedBoardPointer moves = NULL;
+
+    settings = createGameSettings(settings, columns, rows, mines);
+
     do
     {
         printf("Aktualny wynik: %d\n", score(boardList, mode));
@@ -108,7 +134,7 @@ int main(int argc, char **argv)
             isFirstMove = 0;
         }
 
-    } while (isContinue(&boardList, x, y, user_choice, mode) == 1);
+    } while (isContinue(&boardList, x, y, user_choice, mode, &moves) == 1);
 
     printf("Podaj swoj nick: ");
     scanf("%s", nickname);
