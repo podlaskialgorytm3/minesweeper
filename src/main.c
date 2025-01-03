@@ -61,7 +61,7 @@ int main(int argc, char **argv)
                 return 1;
         }
     }
-    printf("%s %d %d %d\n", mode, rows, columns, mines);
+    //printf("%s %d %d %d\n", mode, rows, columns, mines);
     if(rows>0) x_r = rows;
     int x, y;
     int isFirstMove = 1;
