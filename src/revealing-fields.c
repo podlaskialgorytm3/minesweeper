@@ -27,7 +27,7 @@ int checkifwin(boardPtr list)
     return 0;
 }
 
-int isContinue(boardPtr *list, int x, int y, char *user_choice, char *mode, loadedBoardPointer *moves)
+int isContinue(boardPtr *list, int x, int y, char *user_choice, char *mode, movementsPtr *moves)
 {
 
     boardPtr current = *list;

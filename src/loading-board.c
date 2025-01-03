@@ -3,9 +3,9 @@
 #include <string.h>
 #include "../include/loading-borad.h"
 
-loadedBoardPointer createMove(loadedBoardPointer moves, int x, int y, char *moveType)
+movementsPtr createMove(movementsPtr moves, int x, int y, char *moveType)
 {
-    loadedBoardPointer newMove = (loadedBoardPointer)malloc(sizeof(struct loadedBoard));
+    movementsPtr newMove = (movementsPtr)malloc(sizeof(struct movements));
     if (newMove == NULL)
     {
         fprintf(stderr, "Memory allocation failed\n");
@@ -22,7 +22,7 @@ loadedBoardPointer createMove(loadedBoardPointer moves, int x, int y, char *move
     }
     else
     {
-        loadedBoardPointer temp = moves;
+        movementsPtr temp = moves;
         while (temp->next != NULL)
         {
             temp = temp->next;
@@ -32,30 +32,9 @@ loadedBoardPointer createMove(loadedBoardPointer moves, int x, int y, char *move
     }
 }
 
-gameSettingsPointer createGameSettings(gameSettingsPointer settings, int columns, int rows, int mines)
+void printMoves(movementsPtr moves)
 {
-    gameSettingsPointer newSettings = (gameSettingsPointer)malloc(sizeof(struct gameSettings));
-    if (newSettings == NULL)
-    {
-        fprintf(stderr, "Memory allocation failed\n");
-        exit(EXIT_FAILURE);
-    }
-    newSettings->columns = columns;
-    newSettings->rows = rows;
-    newSettings->mines = mines;
 
-    newSettings->next = settings;
-
-    return newSettings;
-}
-
-void printSettingsAndMoves(gameSettingsPointer settings, loadedBoardPointer moves)
-{
-    while (settings != NULL)
-    {
-        printf("%d %d %d\n", settings->columns, settings->rows, settings->mines);
-        settings = settings->next;
-    }
     while (moves != NULL)
     {
         printf("%s %d %d\n", moves->moveType, moves->x, moves->y);
