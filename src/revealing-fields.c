@@ -17,7 +17,7 @@ int checkifwin(boardPtr list){
         list = list->next;
     }
     //printf("%d %d %d\n", flags_ok, revealed, cell_size);
-    if(flags_ok+revealed==cell_size) return 1;
+    if(mines+revealed==cell_size) return 1;
     return 0;
 }
 
