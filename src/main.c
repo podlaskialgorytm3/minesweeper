@@ -38,7 +38,7 @@ int main(int argc, char **argv)
             break;
         case 'p':
             strcpy(mode, "-p");
-            if (optind + 2 < argc) // Sprawdź, czy są wystarczające argumenty
+            if (optind + 2 < argc)
             {
                 rows = atoi(argv[optind++]);
                 columns = atoi(argv[optind++]);
