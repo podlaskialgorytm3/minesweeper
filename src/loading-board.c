@@ -141,3 +141,17 @@ void loadFile(char *fileName, boardPtr *boardList, movementsPtr *moves)
     sortListByCords(boardList);
     fclose(file);
 }
+
+int getCorrectSteps(movementsPtr moves, int isWin)
+{
+    int correctSteps = 0;
+    while (moves != NULL)
+    {
+        if (strcmp(moves->moveType, "-r") == 0)
+        {
+            correctSteps++;
+        }
+        moves = moves->next;
+    }
+    return correctSteps - 1 + isWin;
+}

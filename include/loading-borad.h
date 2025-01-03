@@ -20,4 +20,6 @@ void saveFile(char *fileName, boardPtr boradList, movementsPtr moves);
 
 void loadFile(char *fileName, boardPtr *boardList, movementsPtr *moves);
 
+int getCorrectSteps(movementsPtr moves, int isWin);
+
 #endif
