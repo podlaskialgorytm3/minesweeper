@@ -66,7 +66,7 @@ void saveFile(char *fileName, boardPtr boradList, movementsPtr moves)
     boardPtr currentBoard = boradList;
     while (currentBoard != NULL)
     {
-        fprintf(file, "%d %d %d\n", currentBoard->x, currentBoard->y, currentBoard->fieldValue);
+        fprintf(file, "%d %d %d %d %d\n", currentBoard->x, currentBoard->y, currentBoard->fieldValue, currentBoard->isVisable, currentBoard->isFlag);
         currentBoard = currentBoard->next;
     }
 
@@ -112,9 +112,9 @@ void loadFile(char *fileName, boardPtr *boardList, movementsPtr *moves)
         }
         else
         {
-            int x, y, fieldValue;
+            int x, y, fieldValue, isVisable, isFlag;
 
-            if (sscanf(line, "%d %d %d", &x, &y, &fieldValue) == 3)
+            if (sscanf(line, "%d %d %d %d %d", &x, &y, &fieldValue, &isVisable, &isFlag) == 5)
             {
                 boardPtr newBoard = (boardPtr)malloc(sizeof(struct board));
                 if (newBoard == NULL)
@@ -125,6 +125,9 @@ void loadFile(char *fileName, boardPtr *boardList, movementsPtr *moves)
                 newBoard->x = x;
                 newBoard->y = y;
                 newBoard->fieldValue = fieldValue;
+                newBoard->isVisable = isVisable;
+                newBoard->isFlag = isFlag;
+
                 newBoard->next = *boardList;
                 *boardList = newBoard;
             }

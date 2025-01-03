@@ -16,6 +16,7 @@ boardPtr createBoard(boardPtr list, int x, int y, int fieldValue)
     newField->y = y;
     newField->fieldValue = fieldValue;
     newField->isVisable = 0;
+    newField->isFlag = 0;
 
     newField->next = list;
 

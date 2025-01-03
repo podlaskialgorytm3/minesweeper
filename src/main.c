@@ -61,8 +61,11 @@ int main(int argc, char **argv)
             if (optind < argc)
             {
                 loadFile(argv[optind++], &boardList, &moves);
+                printf("Ruchy:\n");
                 printMoves(moves);
-                printBoard(boardList);
+                rows = getRows(boardList);
+                printf("Plansza na zakonczenie gry:\n");
+                printFileds(boardList, rows);
             }
             else
             {
