@@ -112,7 +112,7 @@ int main(int argc, char **argv)
     int isFirstMove = 1;
     char *user_choice = malloc(5);
     Player players[MAX_PLAYERS];
-    int count = load_scores(players, FILENAME);
+    int count = loadScore(players, FILENAME);
 
     if (strcmp(mode, "-e") == 0)
     {
@@ -171,8 +171,8 @@ int main(int argc, char **argv)
 
     printf("Podaj swoj nick: ");
     scanf("%s", nickname);
-    add_score(players, &count, nickname, score(boardList, mode));
-    save_scores(players, count, FILENAME);
+    addScore(players, &count, nickname, score(boardList, mode));
+    saveScores(players, count, FILENAME);
     printf("Top %d gracze:\n", MAX_PLAYERS);
     for (int i = 0; i < count; i++)
     {

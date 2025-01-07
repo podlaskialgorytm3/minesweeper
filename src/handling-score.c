@@ -8,7 +8,7 @@
 #define MAX_PLAYERS 5
 #define FILENAME "scoreboard.txt"
 
-int load_scores(Player players[], const char *filename)
+int loadScore(Player players[], const char *filename)
 {
     FILE *file = fopen(filename, "r");
     if (file == NULL)
@@ -26,7 +26,7 @@ int load_scores(Player players[], const char *filename)
     return count;
 }
 
-void save_scores(Player players[], int count, const char *filename)
+void saveScores(Player players[], int count, const char *filename)
 {
     FILE *file = fopen(filename, "w");
     if (file == NULL)
@@ -43,7 +43,7 @@ void save_scores(Player players[], int count, const char *filename)
     fclose(file);
 }
 
-void add_score(Player players[], int *count, const char *nickname, int score)
+void addScore(Player players[], int *count, const char *nickname, int score)
 {
     if (*count < MAX_PLAYERS)
     {
