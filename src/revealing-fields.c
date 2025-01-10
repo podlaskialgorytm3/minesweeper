@@ -27,6 +27,20 @@ int checkifwin(boardPtr list)
     return 0;
 }
 
+int is_revealed(boardPtr list, int x, int y)
+{
+    while (list != NULL)
+    {
+        if (list->x == x && list->y == y)
+        {
+            if (list->isVisable == 1)
+                return 1;
+        }
+        list = list->next;
+    }
+    return 0;
+}
+
 int isContinue(boardPtr *list, int x, int y, char *user_choice, char *mode, movementsPtr *moves)
 {
 
@@ -39,6 +53,12 @@ int isContinue(boardPtr *list, int x, int y, char *user_choice, char *mode, move
         return 1;
     }
     int fieldValue = getValueByCords(current, x, y);
+
+    if (is_revealed(current, x, y) == 1)
+    {
+        printf("To pole jest juz odkryte sporbuj jeszcze raz\n");
+        return 1;
+    }
 
     if (fieldValue == 9 && is_flag(current, x, y) == 0 && strcmp(user_choice, "-r") == 0)
     {

@@ -101,7 +101,7 @@ int main(int argc, char **argv)
             printf("-f [x] [y]: Zasloniencie flaga lub odkrycie flagi na danym polu o podanych koordynatach.\n");
             return 0;
         default:
-            fprintf(stderr, "Uzytko niepoprawnych parametrow.\n", argv[0]);
+            fprintf(stderr, "Uzytko niepoprawnych parametrow.\n");
             return 1;
         }
     }
