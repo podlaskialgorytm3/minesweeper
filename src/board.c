@@ -16,6 +16,7 @@ boardPtr createBoard(boardPtr list, int x, int y, int fieldValue)
     newField->y = y;
     newField->fieldValue = fieldValue;
     newField->isVisable = 0;
+    newField->isFlag = 0;
 
     newField->next = list;
 
@@ -134,32 +135,42 @@ int getRows(boardPtr list)
     return maxRow;
 }
 
-int score(boardPtr list, char *mode){
+int score(boardPtr list, char *mode)
+{
     int sum = 0;
     while (list != NULL)
     {
-        if(list->isVisable==1 && list->fieldValue!=9){
-            sum+=1;
+        if (list->isVisable == 1 && list->fieldValue != 9)
+        {
+            sum += 1;
         }
         list = list->next;
     }
-    if(strcmp(mode, "-e")==0) return sum;
-    if(strcmp(mode, "-m")==0) return sum*2;
-    if(strcmp(mode, "-h")==0) return sum*3;
-    else return sum;
+    if (strcmp(mode, "-e") == 0)
+        return sum;
+    if (strcmp(mode, "-m") == 0)
+        return sum * 2;
+    if (strcmp(mode, "-h") == 0)
+        return sum * 3;
+    else
+        return sum;
 }
 
 void printFileds(boardPtr list, int x)
 {
     char *space = "";
-    if(x>9) space = " ";
+    if (x > 9)
+        space = " ";
     int y = 1;
-    if(list!=NULL){
+    if (list != NULL)
+    {
         printf("%s  %s", space, space);
-        for(int i=1;i<=x;i++){
-            if(i<9)
+        for (int i = 1; i <= x; i++)
+        {
+            if (i < 9)
                 printf("%d %s", i, space);
-            else printf("%d ", i);
+            else
+                printf("%d ", i);
         }
         printf("\n%s%d %s", space, y, space);
     }
@@ -190,17 +201,20 @@ void printFileds(boardPtr list, int x)
         }
         else if (list->isVisable == 0)
         {
-            if(list->isFlag==1){
+            if (list->isFlag == 1)
+            {
                 printf("F %s", space);
             }
-            else printf("X %s", space);
+            else
+                printf("X %s", space);
         }
         if (list->next != NULL && list->x > list->next->x)
         {
-            y+=1;
-            if(y<10)
+            y += 1;
+            if (y < 10)
                 printf("\n%s%d %s", space, y, space);
-            else printf("\n%d %s", y, space);
+            else
+                printf("\n%d %s", y, space);
         }
         list = list->next;
     }
@@ -265,5 +279,28 @@ void completeFileds(boardPtr *boardList, int columns, int rows)
                 *boardList = createBoard(*boardList, x, y, fieldValue);
             }
         }
+    }
+}
+
+char *getMode(boardPtr list)
+{
+    int columns = getColumns(list);
+    int rows = getRows(list);
+
+    if (columns == 9 && rows == 9)
+    {
+        return "-e";
+    }
+    else if (columns == 16 && rows == 16)
+    {
+        return "-m";
+    }
+    else if (columns == 16 && rows == 30)
+    {
+        return "-h";
+    }
+    else
+    {
+        return "-p";
     }
 }

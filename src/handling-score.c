@@ -8,9 +8,9 @@
 #define MAX_PLAYERS 5
 #define FILENAME "scoreboard.txt"
 
-int load_scores(Player players[], const char *filename)
+int loadScore(Player players[], const char *fileName)
 {
-    FILE *file = fopen(filename, "r");
+    FILE *file = fopen(fileName, "r");
     if (file == NULL)
     {
         return 0;
@@ -26,9 +26,9 @@ int load_scores(Player players[], const char *filename)
     return count;
 }
 
-void save_scores(Player players[], int count, const char *filename)
+void saveScores(Player players[], int count, const char *fileName)
 {
-    FILE *file = fopen(filename, "w");
+    FILE *file = fopen(fileName, "w");
     if (file == NULL)
     {
         perror("Nie można otworzyć pliku do zapisu");
@@ -43,7 +43,7 @@ void save_scores(Player players[], int count, const char *filename)
     fclose(file);
 }
 
-void add_score(Player players[], int *count, const char *nickname, int score)
+void addScore(Player players[], int *count, const char *nickname, int score)
 {
     if (*count < MAX_PLAYERS)
     {
@@ -53,19 +53,19 @@ void add_score(Player players[], int *count, const char *nickname, int score)
     }
     else
     {
-        int min_index = 0;
+        int minIndex = 0;
         for (int i = 1; i < *count; i++)
         {
-            if (players[i].score < players[min_index].score)
+            if (players[i].score < players[minIndex].score)
             {
-                min_index = i;
+                minIndex = i;
             }
         }
 
-        if (score > players[min_index].score)
+        if (score > players[minIndex].score)
         {
-            strcpy(players[min_index].nickname, nickname);
-            players[min_index].score = score;
+            strcpy(players[minIndex].nickname, nickname);
+            players[minIndex].score = score;
         }
     }
     for (int i = 0; i < *count - 1; i++)

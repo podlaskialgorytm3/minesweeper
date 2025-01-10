@@ -35,4 +35,6 @@ void completeMins(boardPtr *boardList, int columns, int rows, int quantityOfMins
 
 void completeFileds(boardPtr *boardList, int columns, int rows);
 
+char *getMode(boardPtr list);
+
 #endif

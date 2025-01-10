@@ -1,26 +1,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+
 #include "../include/board.h"
 #include "../include/revealing-fields.h"
 #include "../include/handling-score.h"
-#include <unistd.h>
+#include "../include/loading-borad.h"
 
 #define MAX_PLAYERS 5
 #define FILENAME "scoreboard.txt"
 
 int main(int argc, char **argv)
 {
+    boardPtr boardList = NULL;
+    movementsPtr moves = NULL;
+
     int rows = 0;
     int columns = 0;
     int mines = 0;
     char *nickname = malloc(50);
     int x_r = 9;
-    boardPtr boardList = NULL;
     char *mode = malloc(3 * sizeof(char));
     int opt;
+
+    char filename[50];
+
     strcpy(mode, "-e");
-    while ((opt = getopt(argc, argv, "emhpah")) != -1)
+    while ((opt = getopt(argc, argv, "emhpfah")) != -1)
     {
         switch (opt)
         {
@@ -38,7 +45,7 @@ int main(int argc, char **argv)
             break;
         case 'p':
             strcpy(mode, "-p");
-            if (optind + 2 < argc) // Sprawdź, czy są wystarczające argumenty
+            if (optind + 2 < argc)
             {
                 rows = atoi(argv[optind++]);
                 columns = atoi(argv[optind++]);
@@ -50,12 +57,45 @@ int main(int argc, char **argv)
                 return 1;
             }
             break;
+        case 'f':
+            if (optind < argc)
+            {
+                loadFile(argv[optind++], &boardList, &moves);
+                rows = getRows(boardList);
+                mode = getMode(boardList);
+
+                int isWin = checkifwin(boardList);
+                int points = score(boardList, mode);
+
+                printf("Ruchy:\n");
+                printMoves(moves);
+                printf("Plansza na zakonczenie gry:\n");
+                printFileds(boardList, rows);
+                printf("Poprawne kroki: %d\n", getCorrectSteps(moves, isWin));
+                printf("Liczba otrzymanych punktow: %d\n", points);
+
+                if (isWin)
+                {
+                    printf("Wygrana gra: 1\n");
+                }
+                else
+                {
+                    printf("Przegrana gra: 0\n");
+                }
+            }
+            else
+            {
+                fprintf(stderr, "Opcja -f wymaga arguemntu.\n");
+                return 1;
+            }
+            return 0;
         case 'a':
             printf("Mozliwe parametry do uruchomienia aplikacji:\n");
             printf("-e: Ustawienie trybu latwego [9x9] 9 min.\n");
             printf("-m: Ustawienie trybu sredniego [16x16] 40 min.\n");
             printf("-h: Ustawienie trybu trudnego [16x30] 99 min.\n");
             printf("-p [liczba kolumn] [liczba wierszy] [liczba min] - Ustawienie niestandardowej gry.\n");
+            printf("-f [nazwa pliku] - Wczytywanie zapisanej gry.");
             printf("Parametry podczas dzialania aplikacji:\n");
             printf("-r [x] [y]: Odkrycie pola o podanych koordynatach.\n");
             printf("-f [x] [y]: Zasloniencie flaga lub odkrycie flagi na danym polu o podanych koordynatach.\n");
@@ -72,7 +112,26 @@ int main(int argc, char **argv)
     int isFirstMove = 1;
     char *user_choice = malloc(5);
     Player players[MAX_PLAYERS];
-    int count = load_scores(players, FILENAME);
+    int count = loadScore(players, FILENAME);
+
+    if (strcmp(mode, "-e") == 0)
+    {
+        columns = 9;
+        rows = 9;
+        mines = 10;
+    }
+    else if (strcmp(mode, "-m") == 0)
+    {
+        columns = 16;
+        rows = 16;
+        mines = 40;
+    }
+    else if (strcmp(mode, "-h") == 0)
+    {
+        columns = 16;
+        rows = 30;
+        mines = 40;
+    }
 
     do
     {
@@ -108,17 +167,20 @@ int main(int argc, char **argv)
             isFirstMove = 0;
         }
 
-    } while (isContinue(&boardList, x, y, user_choice, mode) == 1);
+    } while (isContinue(&boardList, x, y, user_choice, mode, &moves) == 1);
 
     printf("Podaj swoj nick: ");
     scanf("%s", nickname);
-    add_score(players, &count, nickname, score(boardList, mode));
-    save_scores(players, count, FILENAME);
+    addScore(players, &count, nickname, score(boardList, mode));
+    saveScores(players, count, FILENAME);
     printf("Top %d gracze:\n", MAX_PLAYERS);
     for (int i = 0; i < count; i++)
     {
         printf("%s: %d\n", players[i].nickname, players[i].score);
     }
+    printf("Podaj plik do ktorego chcesz zapisac plansze: ");
+    scanf("%s", filename);
+    saveFile(filename, boardList, moves);
 
     return 0;
 }
