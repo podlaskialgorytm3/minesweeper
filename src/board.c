@@ -169,15 +169,23 @@ void printFileds(boardPtr list, int x)
         {
             if (list->fieldValue == 9)
             {
-                printf("* %s", space);
+                printf("\033[31m* %s\033[0m", space);
             }
             else if (list->fieldValue == 0)
             {
                 printf("  %s", space);
             }
-            else
+            else if(list->fieldValue==1)
             {
-                printf("%d %s", list->fieldValue, space);
+                printf("\033[34m%d %s\033[0m", list->fieldValue, space);
+            }
+            else if(list->fieldValue==2)
+            {
+                printf("\033[32m%d %s\033[0m", list->fieldValue, space);
+            }
+            else if(list->fieldValue>2)
+            {
+                printf("\033[31m%d %s\033[0m", list->fieldValue, space);
             }
         }
         else if (list->isVisable == 0)
