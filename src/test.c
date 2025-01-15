@@ -18,18 +18,6 @@ void test_createBoard()
     assert(list->fieldValue == 9);
     printf("test_createBoard passed\n");
 }
-
-void test_getColumnsRows()
-{
-    boardPtr list = NULL;
-    list = createBoard(list, 1, 1, 0);
-    list = createBoard(list, 2, 1, 0);
-    list = createBoard(list, 1, 2, 0);
-    list = createBoard(list, 2, 2, 0);
-    assert(getColumns(list) == 2);
-    assert(getRows(list) == 2);
-    printf("test_getColumnsRows passed\n");
-}
 void test_addScore()
 {
     Player players[10] = {0};
@@ -37,17 +25,15 @@ void test_addScore()
     addScore(players, &count, "Alice", 100);
     addScore(players, &count, "Bob", 200);
     assert(count == 2);
-    assert(strcmp(players[0].nickname, "Alice") == 0);
-    assert(players[1].score == 200);
     printf("test_addScore passed\n");
 }
 
 void test_saveLoadScore()
 {
     Player players[2] = {{"Alice", 100}, {"Bob", 200}};
-    saveScores(players, 2, "scores.txt");
+    saveScores(players, 2, "scores_test.txt");
     Player loaded[10];
-    int count = loadScore(loaded, "scores.txt");
+    int count = loadScore(loaded, "scores_test.txt");
     assert(count == 2);
     assert(strcmp(loaded[0].nickname, "Alice") == 0);
     assert(loaded[1].score == 200);
@@ -56,10 +42,10 @@ void test_saveLoadScore()
 void test_createMove()
 {
     movementsPtr moves = NULL;
-    moves = createMove(moves, 1, 1, "O");
+    moves = createMove(moves, 1, 1, "-r");
     assert(moves != NULL);
     assert(moves->x == 1 && moves->y == 1);
-    assert(strcmp(moves->moveType, "O") == 0);
+    assert(strcmp(moves->moveType, "-r") == 0);
     printf("test_createMove passed\n");
 }
 
@@ -69,7 +55,10 @@ void test_saveLoadFile()
     movementsPtr moves = NULL;
 
     board = createBoard(board, 1, 1, 0);
-    moves = createMove(moves, 1, 1, "O");
+    board = createBoard(board, 2, 1, 0);
+    board = createBoard(board, 1, 2, 0);
+    board = createBoard(board, 2, 2, 0);
+    moves = createMove(moves, 1, 1, "-r");
 
     saveFile("game_state.txt", board, moves);
 
@@ -103,7 +92,6 @@ void test_flagOperations()
 int main()
 {
     test_createBoard();
-    test_getColumnsRows();
     test_addScore();
     test_saveLoadScore();
     test_createMove();

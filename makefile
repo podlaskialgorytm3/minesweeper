@@ -6,6 +6,7 @@ CFLAGS = -Wall -Wextra -Iinclude
 SRC_DIR = src
 INCLUDE_DIR = include
 BUILD_DIR = build
+DATA_DIR = data
 
 # Pliki źródłowe i obiektowe
 SRC_FILES := $(wildcard $(SRC_DIR)/*.c)
@@ -15,7 +16,7 @@ OBJ_FILES := $(filter-out $(BUILD_DIR)/test.o, $(patsubst $(SRC_DIR)/%.c, $(BUIL
 TARGET = program
 
 # Reguła główna
-all: $(TARGET)
+all: $(TARGET) | $(DATA_DIR)
 
 $(TARGET): $(OBJ_FILES)
 	$(CC) $(CFLAGS) -o $@ $^
@@ -26,6 +27,9 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
+$(DATA_DIR):
+	mkdir -p $(DATA_DIR)
+
 # Reguła testowa dla src/test.c
 test: $(BUILD_DIR)/test.o $(filter-out $(BUILD_DIR)/main.o, $(OBJ_FILES))
 	$(CC) $(CFLAGS) -o $@ $^
@@ -35,6 +39,6 @@ $(BUILD_DIR)/test.o: $(SRC_DIR)/test.c | $(BUILD_DIR)
 
 # Reguły czyszczenia
 clean:
-	rm -rf $(BUILD_DIR) $(TARGET) test
+	rm -rf $(BUILD_DIR) $(DATA_DIR) $(TARGET) test
 
 .PHONY: all clean test
