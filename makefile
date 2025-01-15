@@ -7,7 +7,7 @@ Target = program
 # SRC = src/main.c src/board.c src/revealing-fields.c src/handling-score.c
 # OBJ = $(SRC:src/%.c=$(OBJ_DIR)/%.o)
 $(Target):
-	gcc src/main.c src/board.c src/revealing-fields.c src/handling-score.c -o program
+	cc src/main.c src/board.c src/revealing-fields.c src/handling-score.c -o program
 test:
 	./program -e
 # # Domyślny cel: kompilacja programu
