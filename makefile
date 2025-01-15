@@ -1,33 +1,25 @@
 # Zmienne
-# CC = gcc
-# OBJ_DIR = build\object-files
-# EXEC = program.exe
-Target = program
-# Lista plików źródłowych i obiektowych
-# SRC = src/main.c src/board.c src/revealing-fields.c src/handling-score.c
-# OBJ = $(SRC:src/%.c=$(OBJ_DIR)/%.o)
-$(Target):
-	gcc src/main.c src/board.c src/revealing-fields.c src/handling-score.c -o program
-test:
-	./program -e
-# # Domyślny cel: kompilacja programu
-# all: $(EXEC)
+CC = gcc
+CFLAGS = -Wall -Wextra -g
+TARGET = program
+TEST_TARGET = tests
+SRC = src/main.c src/board.c src/revealing-fields.c src/handling-score.c
+TEST_SRC = tests.c src/board.c src/revealing-fields.c src/handling-score.c
 
-# # Kompilacja programu
-# $(EXEC): $(OBJ)
-# 	$(CC) $^ -o $@
+# Domyślny cel: kompilacja programu
+all: $(TARGET)
 
-# # Kompilacja plików obiektowych
-# $(OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
-# 	$(CC) -c $< -o $@
+# Kompilacja programu głównego
+$(TARGET): $(SRC)
+	$(CC) $(CFLAGS) -o $(TARGET) $(SRC)
 
-# # Tworzenie katalogu na pliki obiektowe
-# $(OBJ_DIR):
-# 	@if not exist $(OBJ_DIR) mkdir $(OBJ_DIR)
+# Kompilacja i uruchomienie testów
+test: $(TEST_TARGET)
+	./$(TEST_TARGET)
 
-# test: $(EXEC)
-# 	./$(EXEC) -e
-# # Cel czyszczący pliki obiektowe i program
-# clean:
-# 	@if exist $(OBJ_DIR) rmdir /s /q $(OBJ_DIR)
-# 	@if exist $(EXEC) del $(EXEC)
+$(TEST_TARGET): $(TEST_SRC)
+	$(CC) $(CFLAGS) -o $(TEST_TARGET) $(TEST_SRC)
+
+# Czyszczenie plików wykonywalnych
+clean:
+	rm -f $(TARGET) $(TEST_TARGET)
