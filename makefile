@@ -1,29 +1,40 @@
-# Zmienne
-# CC = gcc
-# OBJ_DIR = build\object-files
-# EXEC = program.exe
-Target = program
-# Lista plików źródłowych i obiektowych
-# SRC = src/main.c src/board.c src/revealing-fields.c src/handling-score.c
-# OBJ = $(SRC:src/%.c=$(OBJ_DIR)/%.o)
-$(Target):
-	cc src/main.c src/board.c src/revealing-fields.c src/handling-score.c -o program
-test:
-	./program -e
-# # Domyślny cel: kompilacja programu
-# all: $(EXEC)
-# # Kompilacja programu
-# $(EXEC): $(OBJ)
-# 	$(CC) $^ -o $@
-# # Kompilacja plików obiektowych
-# $(OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
-# 	$(CC) -c $< -o $@
-# # Tworzenie katalogu na pliki obiektowe
-# $(OBJ_DIR):
-# 	@if not exist $(OBJ_DIR) mkdir $(OBJ_DIR)
-# test: $(EXEC)
-# 	./$(EXEC) -e
-# # Cel czyszczący pliki obiektowe i program
-# clean:
-# 	@if exist $(OBJ_DIR) rmdir /s /q $(OBJ_DIR)
-# 	@if exist $(EXEC) del $(EXEC)
+# Kompilator i flagi
+CC = gcc
+CFLAGS = -Wall -Wextra -Iinclude
+
+# Katalogi
+SRC_DIR = src
+INCLUDE_DIR = include
+BUILD_DIR = build
+
+# Pliki źródłowe i obiektowe
+SRC_FILES := $(wildcard $(SRC_DIR)/*.c)
+OBJ_FILES := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC_FILES))
+
+# Plik wynikowy
+TARGET = program
+
+# Reguła główna
+all: $(BUILD_DIR) $(TARGET)
+
+$(TARGET): $(OBJ_FILES)
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
+
+# Reguła testowa dla test.c
+test: $(BUILD_DIR)/test.o
+	$(CC) $(CFLAGS) -o test $(BUILD_DIR)/test.o
+
+$(BUILD_DIR)/test.o: test.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c -o $@ test.c
+
+# Reguły czyszczenia
+clean:
+	rm -rf $(BUILD_DIR) $(TARGET) test
+
+.PHONY: all clean test
