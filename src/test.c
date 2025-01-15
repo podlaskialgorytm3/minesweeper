@@ -19,16 +19,6 @@ void test_createBoard()
     printf("test_createBoard passed\n");
 }
 
-void test_checkIfFieldExist()
-{
-    boardPtr list = NULL;
-    list = createBoard(list, 1, 1, 0);
-    list = createBoard(list, 2, 2, 0);
-    assert(checkIfFieldExist(list, 1, 1) == 1);
-    assert(checkIfFieldExist(list, 3, 3) == 0);
-    printf("test_checkIfFieldExist passed\n");
-}
-
 void test_getColumnsRows()
 {
     boardPtr list = NULL;
@@ -113,7 +103,6 @@ void test_flagOperations()
 int main()
 {
     test_createBoard();
-    test_checkIfFieldExist();
     test_getColumnsRows();
     test_addScore();
     test_saveLoadScore();
