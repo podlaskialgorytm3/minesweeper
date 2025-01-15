@@ -122,6 +122,7 @@ int isContinue(boardPtr *list, int x, int y, char *user_choice, char *mode, move
         }
         return 1;
     }
+    return 0;
 }
 
 void revealingField(boardPtr list, int x, int y)
@@ -213,6 +214,7 @@ checkFieldPtr getFirstNotChecked(checkFieldPtr list)
         }
         list = list->next;
     }
+    return list;
 }
 
 void checkingField(checkFieldPtr *list, int x, int y)
