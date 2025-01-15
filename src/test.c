@@ -33,9 +33,11 @@ void test_getColumnsRows()
 {
     boardPtr list = NULL;
     list = createBoard(list, 1, 1, 0);
-    list = createBoard(list, 2, 3, 0);
+    list = createBoard(list, 2, 1, 0);
+    list = createBoard(list, 1, 2, 0);
+    list = createBoard(list, 2, 2, 0);
     assert(getColumns(list) == 2);
-    assert(getRows(list) == 3);
+    assert(getRows(list) == 2);
     printf("test_getColumnsRows passed\n");
 }
 void test_addScore()
