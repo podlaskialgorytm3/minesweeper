@@ -33,6 +33,7 @@ $(DATA_DIR):
 # Reguła testowa dla src/test.c
 test: $(BUILD_DIR)/test.o $(filter-out $(BUILD_DIR)/main.o, $(OBJ_FILES))
 	$(CC) $(CFLAGS) -o $@ $^
+	./test
 
 $(BUILD_DIR)/test.o: $(SRC_DIR)/test.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
